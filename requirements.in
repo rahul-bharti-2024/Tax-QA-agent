@@ -1,0 +1,35 @@
+
+
+# --- Llama Index ---
+llama-index-core
+llama-index-readers-file
+llama-index-embeddings-huggingface
+# llama-index-llms-google-genai
+llama-index-llms-gemini
+# --- Llama Cloud ---
+llama-cloud-services
+
+# --- LangChain ---
+langchain
+langchain-core
+langchain-community
+
+# --- ML Core ---
+sentence-transformers
+transformers
+accelerate
+torch
+torchvision
+torchaudio
+
+# --- Database & Utils ---
+psycopg2-binary
+pgvector
+pdfplumber
+chromadb
+faiss-cpu
+pandas
+scikit-learn
+tqdm
+python-dotenv
+google-genai

@@ -1,0 +1,82 @@
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Virtual environments
+venv/
+.env/
+.venv/
+ENV/
+env/
+
+# =========================
+# OS / Editor junk
+# =========================
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# =========================
+# Logs & outputs
+# =========================
+*.log
+output.txt
+
+# =========================
+# Model / parsing caches
+# =========================
+parsed_cache/
+*.cache
+*.tmp
+
+# =========================
+# Experiment outputs
+# =========================
+ablation_results*.json
+answers_*.json
+
+# Ignore deprecated / exploratory ablation scripts
+testing/ablation_2.py
+testing/ablation3.py
+
+
+# =========================
+# Data artifacts (keep schema, ignore raw)
+# =========================
+data/*.pdf
+data/*.zip
+data/*.csv
+
+# Keep golden test set (tracked)
+!data/golden_test_set.json
+
+# =========================
+# Database / Docker
+# =========================
+*.db
+*.sqlite
+*.sqlite3
+
+# =========================
+# Secrets
+# =========================
+*.env
+.env.*
+secrets.json
+
+# =========================
+# Misc
+# =========================
+common_commands.txt
+req.in 
+req.txt 
+requirements.txt 
+
+essential_requirements.txt
