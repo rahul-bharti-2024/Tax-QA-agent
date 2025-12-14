@@ -42,7 +42,8 @@ parsed_cache/
 # =========================
 # Experiment outputs
 # =========================
-ablation_results*.json
+ablation_results_smart.json
+ablation_results.json
 answers_*.json
 
 # Ignore deprecated / exploratory ablation scripts

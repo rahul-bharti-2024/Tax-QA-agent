@@ -1,0 +1,38 @@
+{
+  "A_vector_no_rerank": {
+    "Recall@7": 0.7,
+    "MRR@7": 0.4833333333333333,
+    "Citation_Precision": 0.3416666666666667,
+    "Citation_Recall": 0.4,
+    "Citation_F1": 0.3657142857142857,
+    "Groundedness": 0.575,
+    "Coverage_Recall": 0.65
+  },
+  "B_vector_rerank": {
+    "Recall@7": 0.7,
+    "MRR@7": 0.5833333333333334,
+    "Citation_Precision": 0.5033333333333333,
+    "Citation_Recall": 0.5833333333333333,
+    "Citation_F1": 0.5285714285714286,
+    "Groundedness": 0.4366666666666667,
+    "Coverage_Recall": 0.6666666666666667
+  },
+  "C_hybrid_no_rerank": {
+    "Recall@7": 0.7,
+    "MRR@7": 0.4833333333333333,
+    "Citation_Precision": 0.3416666666666667,
+    "Citation_Recall": 0.4,
+    "Citation_F1": 0.3657142857142857,
+    "Groundedness": 0.55,
+    "Coverage_Recall": 0.65
+  },
+  "D_hybrid_rerank": {
+    "Recall@7": 0.7,
+    "MRR@7": 0.5833333333333334,
+    "Citation_Precision": 0.5033333333333333,
+    "Citation_Recall": 0.5833333333333333,
+    "Citation_F1": 0.5285714285714286,
+    "Groundedness": 0.5366666666666667,
+    "Coverage_Recall": 0.6666666666666667
+  }
+}
