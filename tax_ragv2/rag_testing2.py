@@ -1,6 +1,6 @@
 import time
 import sys
-from rag_testing1 import ask_tax_question 
+from rag_app import ask_tax_question 
 
 
 test_questions = [

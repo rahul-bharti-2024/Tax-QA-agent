@@ -8,7 +8,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'app'))
 
 try:
     # Import the core function from your existing application file
-    from rag_testing1 import ask_tax_question
+    from rag_app import ask_tax_question
 except ImportError:
     print("❌ ERROR: Could not import 'ask_tax_question' from rag_app.py.")
     print("Please ensure your core RAG logic is in a file named 'rag_app.py' inside an 'app' directory.")

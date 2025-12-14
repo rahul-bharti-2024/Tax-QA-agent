@@ -1,0 +1,449 @@
+[
+    {
+      "Query_ID": "Q001",
+      "Query": "What is the tax year for income tax purposes?",
+      "Answer": "Direct Answer: The tax year is the twelve-month period commencing on the 1st day of April and ending on the 31st day of March immediately following.\n\nKey Provisions:\n- Section 3: Defines the tax year as the twelve-month period beginning on the 1st day of April.",
+      "Required_Sections": ["3"]
+    },
+    {
+      "Query_ID": "Q002",
+      "Query": "How do I know if I am a resident of India for tax reasons?",
+      "Answer": "Direct Answer: An individual is treated as a resident in India in a tax year if the conditions relating to physical presence in India, as prescribed under the Act, are satisfied.\n\nKey Provisions:\n- Section 6(1): An individual is resident in India if such individual is in India for one hundred and eighty-two days or more during the tax year, or for sixty days or more during that tax year and for three hundred and sixty-five days or more during the four preceding tax years.",
+      "Required_Sections": ["6(1)"]
+    },
+    {
+      "Query_ID": "Q003",
+      "Query": "Is income from agriculture taxable?",
+      "Answer": "Direct Answer: Agricultural income is excluded from the computation of total income and is not chargeable to income-tax, provided it satisfies the statutory definition of agricultural income.\n\nKey Provisions:\n- Section 2(5): Defines the term “agricultural income” for the purposes of the Act.\n- Section 11(1): Excludes agricultural income from total income for the purpose of computing income-tax.",
+      "Required_Sections": ["2(5)", "11(1)"]
+    },
+    {
+      "Query_ID": "Q004",
+      "Query": "What constitutes salary income?",
+      "Answer": "Direct Answer: Salary income includes remuneration received by an employee from an employer in the nature of wages, pension, gratuity, fees, commission, perquisites, profits in lieu of salary, advances of salary, and payments received in respect of unavailed leave.\n\nKey Provisions:\n- Section 15: Specifies the income chargeable to income-tax under the head “Salaries”.\n- Section 16: Defines the scope of the term “salary” to include wages, annuity or pension, gratuity, fees, commission, perquisites, profits in lieu of salary, advance of salary, and leave encashment.",
+      "Required_Sections": ["15", "16"]
+    },
+    {
+      "Query_ID": "Q005",
+      "Query": "Is there a standard deduction for salaried employees?",
+      "Answer": "Direct Answer: A standard deduction is allowable from income chargeable under the head “Salaries”, subject to the conditions and limits prescribed under the Act.\n\nKey Provisions:\n- Section 19: Provides for a standard deduction from income chargeable under the head “Salaries”.",
+      "Required_Sections": ["19"]
+    },
+    {
+      "Query_ID": "Q006",
+      "Query": "How is the value of a self-occupied house determined?",
+      "Answer": "Direct Answer: The annual value of a self-occupied house property is taken as nil where the property is occupied by the owner for their own residence or is unoccupied due to employment at another place, subject to the permitted number of such houses.\n\nKey Provisions:\n- Section 21(6): Provides that the annual value of a self-occupied house property shall be taken as nil.\n- Section 21(7): Restricts the benefit of nil annual value to the prescribed number of self-occupied house properties.",
+      "Required_Sections": ["21(6)", "21(7)"]
+    },
+    {
+      "Query_ID": "Q007",
+      "Query": "Can interest on a home loan be deducted?",
+      "Answer": "Direct Answer: A deduction is allowable for interest payable on capital borrowed for the acquisition, construction, repair, renewal or reconstruction of house property, subject to the prescribed limits and conditions.\n\nKey Provisions:\n- Section 22(1)(b): Allows deduction of interest payable on borrowed capital for house property.\n- Section 22(2): Prescribes limits and conditions for deduction of interest in respect of self-occupied house property.",
+      "Required_Sections": ["22(1)(b)", "22(2)"]
+    },
+    {
+      "Query_ID": "Q008",
+      "Query": "What expenses are deductible under Section 28 for a business?",
+      "Answer": "Direct Answer: Deductions are allowable for business expenditure laid out wholly and exclusively for the purposes of business or profession, including rent, rates, taxes, repairs and insurance of business assets.\n\nKey Provisions:\n- Section 28: Provides for allowable deductions in computing income chargeable under the head “Profits and gains of business or profession”.",
+      "Required_Sections": ["28"]
+    },
+    {
+      "Query_ID": "Q009",
+      "Query": "Is a deduction allowed for bad debts?",
+      "Answer": "Direct Answer: A deduction is allowable for bad debts or part thereof which are written off as irrecoverable in the accounts of the assessee, subject to the prescribed conditions.\n\nKey Provisions:\n- Section 31(2): Allows deduction for bad debts written off as irrecoverable, subject to fulfillment of statutory conditions.",
+      "Required_Sections": ["31(2)"]
+    },
+    {
+      "Query_ID": "Q010",
+      "Query": "Is depreciation allowed on business assets?",
+      "Answer": "Direct Answer: A deduction is allowable for depreciation on tangible and intangible business assets owned and used for the purposes of business or profession.\n\nKey Provisions:\n- Section 33(1): Allows deduction for depreciation on specified tangible and intangible assets used for business or profession.",
+      "Required_Sections": ["33(1)"]
+    }
+  ,
+    {
+      "Query_ID": "Q011",
+      "Query": "Are large cash payments allowed for business expenses?",
+      "Answer": "Direct Answer: Expenditure for which payment or aggregate of payments to a person in a day exceeds ten thousand rupees is not allowed as a deduction if such payment is made otherwise than through prescribed banking or electronic modes, except in circumstances and modes as may be prescribed.\n\nKey Provisions:\n- Section 36(4): Disallows deduction for business expenditure where cash payment exceeds the prescribed daily limit.\n- Proviso to Section 36(4): Permits exceptions in cases and modes as may be prescribed.",
+      "Required_Sections": [
+        "36(4)"
+      ]
+    },
+    {
+      "Query_ID": "Q012",
+      "Query": "Is there a presumptive tax scheme for small businesses?",
+      "Answer": "Direct Answer: Profits and gains of eligible business carried on by specified resident persons may be deemed at a prescribed percentage of turnover, subject to conditions relating to turnover limits and eligibility.\n\nKey Provisions:\n- Section 58(1): Provides for presumptive taxation of eligible businesses of specified persons.\n- Section 58(2): Prescribes deemed profit rates and turnover thresholds.\n- Section 58(3): Specifies persons and businesses to which the presumptive scheme does not apply.",
+      "Required_Sections": [
+        "58(1)",
+        "58(2)",
+        "58(3)"
+      ]
+    },
+    {
+      "Query_ID": "Q013",
+      "Query": "What is included in the definition of a capital asset?",
+      "Answer": "Direct Answer: A capital asset means property of any kind held by an assessee, whether or not connected with business or profession, but excludes assets expressly excluded under the Act.\n\nKey Provisions:\n- Section 2(22): Defines the term “capital asset” and specifies inclusions and exclusions.",
+      "Required_Sections": [
+        "2(22)"
+      ]
+    },
+    {
+      "Query_ID": "Q014",
+      "Query": "How are capital gains calculated?",
+      "Answer": "Direct Answer: Capital gains are computed by deducting the cost of acquisition, cost of improvement, and expenditure incurred wholly and exclusively in connection with the transfer from the full value of consideration received or accruing as a result of the transfer.\n\nKey Provisions:\n- Section 72(1): Prescribes the mode of computation of capital gains.\n- Section 2(47): Defines the term “transfer” for the purposes of capital gains taxation.",
+      "Required_Sections": [
+        "72(1)",
+        "2(47)"
+      ]
+    },
+    {
+      "Query_ID": "Q015",
+      "Query": "Is tax exemption available when selling a house to buy another?",
+      "Answer": "Direct Answer: Capital gains arising from transfer of a residential house are exempt from tax if another residential house is purchased or constructed within the prescribed time limits and subject to specified conditions.\n\nKey Provisions:\n- Section 82(1): Grants exemption of capital gains on reinvestment in a residential house.\n- Section 82(2): Prescribes conditions and time limits for availing such exemption.",
+      "Required_Sections": [
+        "82(1)",
+        "82(2)"
+      ]
+    },
+    {
+      "Query_ID": "Q016",
+      "Query": "Are lottery winnings taxable?",
+      "Answer": "Direct Answer: Lottery winnings are taxable and chargeable to income-tax under the head “Income from other sources”. A lottery includes winnings from prizes awarded by draw of lots or by chance.\n\nKey Provisions:\n- Section 92(2)(b): Treats winnings from lotteries, races, card games and other games of chance as income from other sources.\n- Section 15: Defines “lottery” to include winnings from prizes awarded by chance.",
+      "Required_Sections": [
+        "92(2)(b)",
+        "15"
+      ]
+    },
+    {
+      "Query_ID": "Q017",
+      "Query": "Are gifts of money taxable?",
+      "Answer": "Direct Answer: Any sum of money received without consideration is chargeable to tax as income from other sources if the aggregate value exceeds the prescribed threshold, unless covered by specified exemptions.\n\nKey Provisions:\n- Section 92(2)(m): Treats specified sums of money received without consideration as income.\n- Section 92(3): Provides exceptions where such receipts are not taxable.",
+      "Required_Sections": [
+        "92(2)(m)",
+        "92(3)"
+      ]
+    },
+    {
+      "Query_ID": "Q018",
+      "Query": "Is income from assets transferred to a spouse taxable?",
+      "Answer": "Direct Answer: Income arising from assets transferred directly or indirectly to a spouse without adequate consideration is included in the total income of the transferor, subject to statutory exceptions.\n\nKey Provisions:\n- Section 99(1)(a): Clubs income from assets transferred to spouse with the income of the transferor.\n- Section 99(2): Provides exceptions where such clubbing provisions do not apply.",
+      "Required_Sections": [
+        "99(1)(a)",
+        "99(2)"
+      ]
+    },
+    {
+      "Query_ID": "Q019",
+      "Query": "Can business losses be set off against salary?",
+      "Answer": "Direct Answer: Losses under the head “Profits and gains of business or profession” cannot be set off against income chargeable under the head “Salaries”.\n\nKey Provisions:\n- Section 109(1)(a): Prohibits set-off of business losses against salary income.",
+      "Required_Sections": [
+        "109(1)(a)"
+      ]
+    },
+    {
+      "Query_ID": "Q020",
+      "Query": "How long can business losses be carried forward?",
+      "Answer": "Direct Answer: Business losses, other than specified excluded losses, may be carried forward and set off against business income for the prescribed number of succeeding tax years, subject to conditions.\n\nKey Provisions:\n- Section 112(1): Allows carry forward of business losses.\n- Section 112(2): Prescribes the maximum period for which such losses may be carried forward.",
+      "Required_Sections": [
+        "112(1)",
+        "112(2)"
+      ]
+    }
+  ,
+    {
+      "Query_ID": "Q021",
+      "Query": "Is a deduction allowed for life insurance premiums?",
+      "Answer": "Direct Answer: A deduction is allowed for amounts paid or deposited in a tax year towards life insurance premia and other specified savings or insurance instruments, subject to overall limits and conditions.\n\nKey Provisions:\n- Section 122: Provides that deductions specified in this Chapter shall be allowed in computing total income.\n- Section 123(1): Allows deduction for life insurance premia and specified contributions.\n- Section 123(2): Prescribes the overall monetary limits applicable to such deduction.",
+      "Required_Sections": [
+        "122",
+        "123(1)",
+        "123(2)"
+      ]
+    },
+    {
+      "Query_ID": "Q022",
+      "Query": "Can health insurance premiums be deducted?",
+      "Answer": "Direct Answer: A deduction is allowed for health insurance premia paid by modes other than cash for the assessee, family members, and parents, subject to prescribed limits.\n\nKey Provisions:\n- Section 122: Provides the general framework for deductions in computing total income.\n- Section 126(1): Allows deduction for health insurance premia paid by the assessee.\n- Section 126(2): Prescribes additional deduction limits for parents.\n- Section 126(8): Specifies conditions and permissible modes of payment for claiming the deduction.",
+      "Required_Sections": [
+        "122",
+        "126(1)",
+        "126(2)",
+        "126(8)"
+      ]
+    },
+    {
+      "Query_ID": "Q023",
+      "Query": "Is interest on education loans deductible?",
+      "Answer": "Direct Answer: A deduction is allowed for interest paid on a loan taken from a specified financial institution for pursuing higher education, subject to prescribed conditions and time limits.\n\nKey Provisions:\n- Section 122: Enables deductions specified under this Chapter.\n- Section 129(1): Allows deduction for interest on loan taken for higher education.\n- Section 129(2): Prescribes the period for which such deduction is allowable.\n- Section 129(3): Defines terms and conditions relevant for the deduction.",
+      "Required_Sections": [
+        "122",
+        "129(1)",
+        "129(2)",
+        "129(3)"
+      ]
+    },
+    {
+      "Query_ID": "Q024",
+      "Query": "Is there a tax benefit for electric vehicle loans?",
+      "Answer": "Direct Answer: A deduction is allowed for interest payable on a loan taken for the purchase of an electric vehicle, subject to prescribed limits, conditions, and eligibility requirements.\n\nKey Provisions:\n- Section 122: Governs deductions allowed in computing total income.\n- Section 132(1): Allows deduction for interest on loan taken for purchase of an electric vehicle.\n- Section 132(2): Specifies eligibility conditions relating to the vehicle and the loan.\n- Section 132(3): Prescribes the maximum deduction limit and other conditions.",
+      "Required_Sections": [
+        "122",
+        "132(1)",
+        "132(2)",
+        "132(3)"
+      ]
+    },
+    {
+      "Query_ID": "Q025",
+      "Query": "Are donations to charity deductible?",
+      "Answer": "Direct Answer: A deduction is allowed for sums paid as donations to specified funds or charitable institutions, subject to prescribed limits, conditions, and mode of payment.\n\nKey Provisions:\n- Section 122: Provides for deductions in computing total income.\n- Section 133(1): Allows deduction for donations to specified funds and institutions.\n- Section 133(2): Prescribes qualifying limits and rates of deduction.\n- Section 133(5): Mandates conditions relating to mode of payment for donations.",
+      "Required_Sections": [
+        "122",
+        "133(1)",
+        "133(2)",
+        "133(5)"
+      ]
+    },
+    {
+      "Query_ID": "Q026",
+      "Query": "Can rent paid be deducted if HRA is not received?",
+      "Answer": "Direct Answer: A deduction is allowed for rent paid for residential accommodation by an assessee who does not receive house rent allowance, subject to prescribed limits and conditions.\n\nKey Provisions:\n- Section 122: Lays down the general provision for deductions.\n- Section 134(1): Allows deduction for rent paid where house rent allowance is not received.\n- Section 134(2): Prescribes the maximum limit for such deduction.\n- Section 134(3): Specifies conditions and restrictions for claiming the deduction.",
+      "Required_Sections": [
+        "122",
+        "134(1)",
+        "134(2)",
+        "134(3)"
+      ]
+    },
+    {
+      "Query_ID": "Q027",
+      "Query": "Is royalty income for authors deductible?",
+      "Answer": "Direct Answer: A deduction is allowed to a resident individual author in respect of income derived from royalty or copyright fees for specified works, subject to prescribed limits and conditions.\n\nKey Provisions:\n- Section 122: Governs deductions allowed in computing total income.\n- Section 151(1): Allows deduction for royalty income of resident authors.\n- Section 151(2): Prescribes the maximum amount eligible for deduction.\n- Section 151(3): Specifies conditions and scope of eligible works.",
+      "Required_Sections": [
+        "122",
+        "151(1)",
+        "151(2)",
+        "151(3)"
+      ]
+    },
+    {
+      "Query_ID": "Q028",
+      "Query": "What deduction is available for persons with disability?",
+      "Answer": "Direct Answer: A fixed deduction is allowed to a resident individual who is a person with disability, with a higher deduction allowed in the case of severe disability, subject to prescribed certification requirements.\n\nKey Provisions:\n- Section 122: Provides the general deduction framework.\n- Section 154(1): Prescribes deduction amounts for persons with disability and severe disability.\n- Section 154(2): Specifies certification and procedural conditions.",
+      "Required_Sections": [
+        "122",
+        "154(1)",
+        "154(2)"
+      ]
+    },
+    {
+      "Query_ID": "Q029",
+      "Query": "Is there a tax rebate for lower income?",
+      "Answer": "Direct Answer: A rebate of income-tax is allowed to a resident individual whose total income does not exceed the prescribed threshold, subject to a specified maximum rebate amount.\n\nKey Provisions:\n- Section 156(1): Grants rebate of income-tax to eligible resident individuals.\n- Section 156(2): Prescribes the maximum amount of rebate allowable.",
+      "Required_Sections": [
+        "156(1)",
+        "156(2)"
+      ]
+    },
+    {
+      "Query_ID": "Q030",
+      "Query": "What are the tax rates under the new regime?",
+      "Answer": "Direct Answer: Income-tax for individuals opting for the new tax regime is computed at slab rates prescribed for different income ranges, subject to the conditions applicable to such regime.\n\nKey Provisions:\n- Section 202(1): Prescribes slab rates of income-tax under the new tax regime.\n- Section 202(2): Specifies conditions and applicability for computation of tax under the new regime.",
+      "Required_Sections": [
+        "202(1)",
+        "202(2)"
+      ]
+    }
+  ,
+    {
+      "Query_ID": "Q031",
+      "Query": "Who must file a tax return?",
+      "Answer": "Direct Answer: Every company or firm, and any other person whose total income exceeds the maximum amount not chargeable to income-tax during a tax year, is required to furnish a return of income.\n\nKey Provisions:\n- Section 263(1): Mandates furnishing of return of income by persons whose income exceeds the basic exemption limit.\n- Section 263(2): Requires companies and firms to furnish a return irrespective of income.\n- Section 263(8): Mandates filing of return by specified persons even if income does not exceed the exemption limit.",
+      "Required_Sections": [
+        "263(1)",
+        "263(2)",
+        "263(8)"
+      ]
+    },
+    {
+      "Query_ID": "Q032",
+      "Query": "Can a belated return be filed?",
+      "Answer": "Direct Answer: A person who has not furnished a return within the prescribed due date may furnish a belated return within the prescribed time limit or before completion of assessment, whichever is earlier.\n\nKey Provisions:\n- Section 263(4): Permits furnishing of a belated return within the specified time limit.\n- Section 263(5): Restricts revision of a belated return except as provided under the Act.",
+      "Required_Sections": [
+        "263(4)",
+        "263(5)"
+      ]
+    },
+    {
+      "Query_ID": "Q033",
+      "Query": "What is an updated return?",
+      "Answer": "Direct Answer: An updated return may be furnished for a tax year within the prescribed extended time limit, whether or not a return was previously furnished, subject to specified exclusions and payment of additional tax.\n\nKey Provisions:\n- Section 263(6): Allows furnishing of an updated return within the prescribed extended period.\n- Section 263(7): Specifies cases where an updated return cannot be furnished.\n- Section 267: Prescribes additional tax payable on filing an updated return.",
+      "Required_Sections": [
+        "263(6)",
+        "263(7)",
+        "267"
+      ]
+    },
+    {
+      "Query_ID": "Q034",
+      "Query": "Is quoting PAN mandatory?",
+      "Answer": "Direct Answer: A person to whom a Permanent Account Number has been allotted, or who is required to obtain one, must quote such number in prescribed documents and transactions.\n\nKey Provisions:\n- Section 262(1): Mandates obtaining of Permanent Account Number by specified persons.\n- Section 262(3): Requires quoting of Permanent Account Number in prescribed transactions and documents.",
+      "Required_Sections": [
+        "262(1)",
+        "262(3)"
+      ]
+    },
+    {
+      "Query_ID": "Q035",
+      "Query": "When must advance tax be paid?",
+      "Answer": "Direct Answer: Advance tax is payable during a tax year where the tax payable on total income meets or exceeds the prescribed threshold, and is required to be paid in instalments.\n\nKey Provisions:\n- Section 403: Creates liability to pay advance tax.\n- Section 404: Prescribes conditions for applicability of advance tax.\n- Section 405: Specifies the instalments and due dates for payment of advance tax.",
+      "Required_Sections": [
+        "403",
+        "404",
+        "405"
+      ]
+    },
+    {
+      "Query_ID": "Q036",
+      "Query": "Is interest charged for late filing?",
+      "Answer": "Direct Answer: Interest is chargeable for failure to furnish a return of income within the prescribed due date, for the period of default.\n\nKey Provisions:\n- Section 423: Provides for levy of interest for default in furnishing return of income.\n- Section 424: Prescribes the manner of computation of such interest.",
+      "Required_Sections": [
+        "423",
+        "424"
+      ]
+    },
+    {
+      "Query_ID": "Q037",
+      "Query": "Can excess tax paid be refunded?",
+      "Answer": "Direct Answer: A refund is granted where the amount of tax paid exceeds the amount of tax chargeable under the Act, along with interest where applicable.\n\nKey Provisions:\n- Section 431: Provides for grant of refund of excess tax paid.\n- Section 432: Provides for interest payable on delayed refunds.",
+      "Required_Sections": [
+        "431",
+        "432"
+      ]
+    },
+    {
+      "Query_ID": "Q038",
+      "Query": "What if tax is not deducted at source?",
+      "Answer": "Direct Answer: A person who fails to deduct or pay tax deductible at source is deemed to be an assessee in default and is liable to interest and penalty under the Act.\n\nKey Provisions:\n- Section 398: Deems a person to be an assessee in default for failure to deduct or pay tax at source.\n- Section 399: Provides for levy of interest for such failure.\n- Section 448: Prescribes penalty for failure to deduct tax at source.",
+      "Required_Sections": [
+        "398",
+        "399",
+        "448"
+      ]
+    },
+    {
+      "Query_ID": "Q039",
+      "Query": "When is a tax audit required?",
+      "Answer": "Direct Answer: A person carrying on business or profession is required to get accounts audited where turnover or gross receipts exceed the prescribed limits, subject to specified exceptions.\n\nKey Provisions:\n- Section 63(1): Mandates tax audit where turnover or gross receipts exceed prescribed thresholds.\n- Section 63(2): Provides exceptions or relaxations in specified cases.",
+      "Required_Sections": [
+        "63(1)",
+        "63(2)"
+      ]
+    },
+    {
+      "Query_ID": "Q040",
+      "Query": "Can tax authorities search premises?",
+      "Answer": "Direct Answer: Authorised income-tax authorities may conduct search and seizure where they have reason to believe that undisclosed income, property, or documents exist, subject to proper authorisation and statutory safeguards.\n\nKey Provisions:\n- Section 247(1): Empowers authorised officers to conduct search and seizure.\n- Section 247(2): Prescribes conditions relating to authorisation and scope of search.\n- Section 250: Governs application and retention of seized assets.",
+      "Required_Sections": [
+        "247(1)",
+        "247(2)",
+        "250"
+      ]
+    },
+
+    {
+      "Query_ID": "Q041",
+      "Query": "What is a survey operation?",
+      "Answer": "Direct Answer: An income-tax authority may enter a place where business or profession is carried on to inspect books of account, verify cash or stock, and collect information relevant for proceedings under the Act, during business hours.\n\nKey Provisions:\n- Section 253(1): Empowers income-tax authorities to conduct survey at places where business or profession is carried on.\n- Section 253(2): Specifies the scope of powers during survey, including inspection of books, verification of cash or stock, and recording statements.",
+      "Required_Sections": [
+        "253(1)",
+        "253(2)"
+      ]
+    },
+    {
+      "Query_ID": "Q042",
+      "Query": "Can an assessment order be appealed?",
+      "Answer": "Direct Answer: An assessee aggrieved by specified orders of an Assessing Officer may file an appeal before the prescribed appellate authority within the prescribed time.\n\nKey Provisions:\n- Section 356: Specifies the orders against which an appeal may be filed.\n- Section 357: Prescribes the appellate authority before whom the appeal lies.\n- Section 358: Prescribes the time limit for filing an appeal.",
+      "Required_Sections": [
+        "356",
+        "357",
+        "358"
+      ]
+    },
+    {
+      "Query_ID": "Q043",
+      "Query": "What is Faceless Assessment?",
+      "Answer": "Direct Answer: Assessment proceedings may be conducted electronically in a faceless manner through designated centres, eliminating physical interface between the assessee and income-tax authorities except as provided.\n\nKey Provisions:\n- Section 273(1): Provides for conduct of assessment proceedings in a faceless manner.\n- Section 273(2): Specifies the establishment of faceless assessment centres and units.\n- Section 273(5): Permits personal hearing through electronic means where required.",
+      "Required_Sections": [
+        "273(1)",
+        "273(2)",
+        "273(5)"
+      ]
+    },
+    {
+      "Query_ID": "Q044",
+      "Query": "How are crypto assets taxed?",
+      "Answer": "Direct Answer: Income arising from transfer of virtual digital assets is chargeable to income-tax at a special rate, with no deduction allowed except cost of acquisition.\n\nKey Provisions:\n- Section 2(47): Defines virtual digital assets for the purposes of the Act.\n- Section 92(2)(h): Charges income from transfer of virtual digital assets under Income from other sources.\n- Section 194(1) Table Sl. No. 4: Prescribes the special tax rate applicable to income from virtual digital assets.",
+      "Required_Sections": [
+        "2(47)",
+        "92(2)(h)",
+        "194(1) (Table: Sl. No. 4)"
+      ]
+    },
+    {
+      "Query_ID": "Q045",
+      "Query": "What is the tax rate for online games?",
+      "Answer": "Direct Answer: Income by way of net winnings from online games is chargeable to income-tax at a prescribed special rate.\n\nKey Provisions:\n- Section 92(2)(b): Treats winnings from games and similar activities as income from other sources.\n- Section 194(1) Table Sl. No. 5: Prescribes the tax rate applicable to net winnings from online games.",
+      "Required_Sections": [
+        "92(2)(b)",
+        "194(1) (Table: Sl. No. 5)"
+      ]
+    },
+    {
+      "Query_ID": "Q046",
+      "Query": "How are lottery winnings taxed?",
+      "Answer": "Direct Answer: Lottery winnings are taxable and chargeable to income-tax under the head Income from other sources at a prescribed special rate. A lottery includes winnings from prizes awarded by chance.\n\nKey Provisions:\n- Section 15: Defines lottery to include winnings from prizes awarded by draw of lots or by chance.\n- Section 92(2)(b): Includes lottery winnings as income from other sources.\n- Section 194(1) Table Sl. No. 1: Prescribes the special tax rate for winnings from lotteries.",
+      "Required_Sections": [
+        "15",
+        "92(2)(b)",
+        "194(1) (Table: Sl. No. 1)"
+      ]
+    },
+    {
+      "Query_ID": "Q047",
+      "Query": "Is there a limit on cash loans?",
+      "Answer": "Direct Answer: A person is prohibited from taking or accepting loans, deposits, or specified sums exceeding the prescribed threshold otherwise than through permitted banking or electronic modes.\n\nKey Provisions:\n- Section 185(1): Restricts acceptance of loans, deposits, or specified sums in cash beyond the prescribed limit.\n- Section 185(3): Provides exceptions where such restriction does not apply.",
+      "Required_Sections": [
+        "185(1)",
+        "185(3)"
+      ]
+    },
+    {
+      "Query_ID": "Q048",
+      "Query": "Is there a limit on receiving cash?",
+      "Answer": "Direct Answer: A person is prohibited from receiving cash exceeding the prescribed aggregate limit from a person in a day or in respect of a single transaction otherwise than through permitted banking modes.\n\nKey Provisions:\n- Section 186(1): Restricts receipt of cash beyond the prescribed aggregate limit.\n- Section 186(2): Provides exceptions to the restriction on cash receipts.",
+      "Required_Sections": [
+        "186(1)",
+        "186(2)"
+      ]
+    },
+    {
+      "Query_ID": "Q049",
+      "Query": "What is the fee for late filing of return?",
+      "Answer": "Direct Answer: A mandatory fee is payable where a return of income is not furnished within the prescribed due date, subject to specified maximum limits.\n\nKey Provisions:\n- Section 428(1): Provides for levy of fee for default in furnishing return of income.\n- Section 428(2): Prescribes the maximum amount of such fee.",
+      "Required_Sections": [
+        "428(1)",
+        "428(2)"
+      ]
+    },
+    {
+      "Query_ID": "Q050",
+      "Query": "Can mistakes in orders be rectified?",
+      "Answer": "Direct Answer: An income-tax authority may amend any order passed by it to rectify a mistake apparent from the record within the prescribed time limit, either on its own motion or on application by the assessee.\n\nKey Provisions:\n- Section 287(1): Empowers rectification of mistakes apparent from the record.\n- Section 287(2): Allows rectification on application by the assessee.\n- Section 288(1): Prescribes the time limit for rectification of orders.",
+      "Required_Sections": [
+        "287(1)",
+        "287(2)",
+        "288(1)"
+      ]
+    }
+  ]
+  

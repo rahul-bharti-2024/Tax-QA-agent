@@ -1,0 +1,302 @@
+[
+  {
+    "query": "What is the tax year for income tax purposes?",
+    "gold_sections": [
+      "3"
+    ],
+    "retrieved_sections": [
+      "2",
+      "263",
+      "3"
+    ],
+    "answer_sections": [],
+    "effective_sections": [
+      "2",
+      "263",
+      "3"
+    ],
+    "metrics": {
+      "recall_hit": 1,
+      "mrr": 0.3333333333333333,
+      "citation_precision": 0.0,
+      "citation_recall": 0.0,
+      "citation_f1": 0.0,
+      "groundedness": 0.0,
+      "coverage_recall": 1.0
+    }
+  },
+  {
+    "query": "How is the value of a self-occupied house determined?",
+    "gold_sections": [
+      "21"
+    ],
+    "retrieved_sections": [
+      "21",
+      "277",
+      "41"
+    ],
+    "answer_sections": [
+      "21"
+    ],
+    "effective_sections": [
+      "21",
+      "277",
+      "41"
+    ],
+    "metrics": {
+      "recall_hit": 1,
+      "mrr": 0.5,
+      "citation_precision": 1.0,
+      "citation_recall": 1.0,
+      "citation_f1": 1.0,
+      "groundedness": 1.0,
+      "coverage_recall": 1.0
+    }
+  },
+  {
+    "query": "Are large cash payments allowed for business expenses?",
+    "gold_sections": [
+      "36"
+    ],
+    "retrieved_sections": [
+      "187",
+      "5",
+      "62",
+      "64"
+    ],
+    "answer_sections": [
+      "62"
+    ],
+    "effective_sections": [
+      "187",
+      "5",
+      "62",
+      "64"
+    ],
+    "metrics": {
+      "recall_hit": 0,
+      "mrr": 0.0,
+      "citation_precision": 0.0,
+      "citation_recall": 0.0,
+      "citation_f1": 0.0,
+      "groundedness": 1.0,
+      "coverage_recall": 0.0
+    }
+  },
+  {
+    "query": "Are lottery winnings taxable?",
+    "gold_sections": [
+      "15",
+      "92"
+    ],
+    "retrieved_sections": [
+      "14",
+      "194",
+      "92"
+    ],
+    "answer_sections": [
+      "14",
+      "194",
+      "92"
+    ],
+    "effective_sections": [
+      "14",
+      "194",
+      "92"
+    ],
+    "metrics": {
+      "recall_hit": 1,
+      "mrr": 0.5,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 0.5,
+      "citation_f1": 0.4,
+      "groundedness": 1.0,
+      "coverage_recall": 0.5
+    }
+  },
+  {
+    "query": "Is a deduction allowed for life insurance premiums?",
+    "gold_sections": [
+      "122",
+      "123"
+    ],
+    "retrieved_sections": [
+      "123",
+      "163",
+      "30"
+    ],
+    "answer_sections": [
+      "123",
+      "163",
+      "30"
+    ],
+    "effective_sections": [
+      "123",
+      "163",
+      "30"
+    ],
+    "metrics": {
+      "recall_hit": 1,
+      "mrr": 1.0,
+      "citation_precision": 0.3333333333333333,
+      "citation_recall": 0.5,
+      "citation_f1": 0.4,
+      "groundedness": 1.0,
+      "coverage_recall": 0.5
+    }
+  },
+  {
+    "query": "Can rent paid be deducted if HRA is not received?",
+    "gold_sections": [
+      "122",
+      "134"
+    ],
+    "retrieved_sections": [
+      "134",
+      "142",
+      "249"
+    ],
+    "answer_sections": [],
+    "effective_sections": [
+      "134",
+      "142",
+      "249"
+    ],
+    "metrics": {
+      "recall_hit": 1,
+      "mrr": 0.5,
+      "citation_precision": 0.0,
+      "citation_recall": 0.0,
+      "citation_f1": 0.0,
+      "groundedness": 0.0,
+      "coverage_recall": 0.5
+    }
+  },
+  {
+    "query": "Who must file a tax return?",
+    "gold_sections": [
+      "263"
+    ],
+    "retrieved_sections": [
+      "263",
+      "295",
+      "439"
+    ],
+    "answer_sections": [
+      "295",
+      "63"
+    ],
+    "effective_sections": [
+      "263",
+      "295",
+      "439",
+      "63"
+    ],
+    "metrics": {
+      "recall_hit": 1,
+      "mrr": 1.0,
+      "citation_precision": 0.0,
+      "citation_recall": 0.0,
+      "citation_f1": 0.0,
+      "groundedness": 0.5,
+      "coverage_recall": 1.0
+    }
+  },
+  {
+    "query": "Is interest charged for late filing?",
+    "gold_sections": [
+      "423",
+      "424"
+    ],
+    "retrieved_sections": [
+      "336",
+      "5"
+    ],
+    "answer_sections": [
+      "1",
+      "294",
+      "298",
+      "5"
+    ],
+    "effective_sections": [
+      "1",
+      "294",
+      "298",
+      "336",
+      "5"
+    ],
+    "metrics": {
+      "recall_hit": 0,
+      "mrr": 0.0,
+      "citation_precision": 0.0,
+      "citation_recall": 0.0,
+      "citation_f1": 0.0,
+      "groundedness": 0.25,
+      "coverage_recall": 0.0
+    }
+  },
+  {
+    "query": "What is a survey operation?",
+    "gold_sections": [
+      "253"
+    ],
+    "retrieved_sections": [
+      "273",
+      "5",
+      "582"
+    ],
+    "answer_sections": [
+      "253"
+    ],
+    "effective_sections": [
+      "253",
+      "273",
+      "5",
+      "582"
+    ],
+    "metrics": {
+      "recall_hit": 0,
+      "mrr": 0.0,
+      "citation_precision": 1.0,
+      "citation_recall": 1.0,
+      "citation_f1": 1.0,
+      "groundedness": 0.0,
+      "coverage_recall": 1.0
+    }
+  },
+  {
+    "query": "How are lottery winnings taxed?",
+    "gold_sections": [
+      "15",
+      "194",
+      "92"
+    ],
+    "retrieved_sections": [
+      "14",
+      "15",
+      "194",
+      "92"
+    ],
+    "answer_sections": [
+      "14",
+      "15",
+      "194",
+      "92"
+    ],
+    "effective_sections": [
+      "14",
+      "15",
+      "194",
+      "92"
+    ],
+    "metrics": {
+      "recall_hit": 1,
+      "mrr": 1.0,
+      "citation_precision": 0.75,
+      "citation_recall": 1.0,
+      "citation_f1": 0.8571428571428571,
+      "groundedness": 1.0,
+      "coverage_recall": 1.0
+    }
+  }
+]
