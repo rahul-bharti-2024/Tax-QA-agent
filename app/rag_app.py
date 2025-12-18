@@ -1,366 +1,407 @@
-
 import os
 import psycopg2
 from dotenv import load_dotenv
 from llama_index.llms.gemini import Gemini
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
-from sentence_transformers import CrossEncoder 
+from sentence_transformers import CrossEncoder
 from urllib.parse import urlparse
 import re
 import math
 
-# --- GLOBAL VARIABLES (CRITICAL FOR LAZY LOADING) ---
-# Declare model variables globally, but initialize them to None.
-llm = None
-embed_model = None
-reranker_model = None
+# ============================================================
+# ENV + UTILS
+# ============================================================
+load_dotenv()
 
-# --- HELPER FUNCTIONS ---
 def sigmoid(x):
     return 1 / (1 + math.exp(-x))
 
-def initialize_models():
-    """Initializes LLM, Embedding, and Reranker models lazily on first call."""
-    global llm, embed_model, reranker_model
+if not os.getenv("GOOGLE_API_KEY"):
+    raise ValueError("❌ GOOGLE_API_KEY not found")
 
-    if llm and embed_model and reranker_model:
-        return # Already loaded
+# ============================================================
+# MODELS
+# ============================================================
+print("Loading LLMs...")
 
-    load_dotenv()
-    if not os.getenv("GOOGLE_API_KEY"):
-        raise ValueError("❌ GOOGLE_API_KEY not found in .env")
+#Query optimization 
+llm_optimizer = Gemini(
+    model="models/gemma-3-27b-it",
+    temperature=0.10,
+    top_p=0.9,
+    max_tokens=150
+)
 
-    print("Loading gemma-3-27b-it...")
-    llm = Gemini(model="models/gemma-3-27b-it") 
+#Reasoning
+llm_reasoning = Gemini(
+    model="models/gemma-3-27b-it",
+    temperature=0.15,
+    top_p=0.9,
+    max_tokens=1000
+)
 
-    print("Loading Embedding Model...")
-    embed_model = HuggingFaceEmbedding(model_name="BAAI/bge-base-en-v1.5")
+#Final answer formatting
+llm_answer = Gemini(
+    model="models/gemma-3-27b-it",
+    temperature=0.0,
+    top_p=1.0,
+    max_tokens=200
+)
 
-    print("Loading Reranker Model (BAAI/bge-reranker-base)...")
-    reranker_model = CrossEncoder('BAAI/bge-reranker-base') 
 
-# --- CRITICAL GETTER FOR ABLATION SCRIPT ---
-# This function helps the ablation runner grab the initialized model without scope issues.
-def get_embed_model():
-    """Returns the currently initialized embedding model instance."""
-    global embed_model
-    if not embed_model:
-        initialize_models()
-    return embed_model
-def get_llm():
-    """Returns the currently initialized LLM instance."""
-    global llm
-    if not llm:
-        initialize_models()
-    return llm
-# --- Connection and Retrieval Functions ---
+print("Loading Embedding Model...")
+embed_model = HuggingFaceEmbedding(model_name="BAAI/bge-base-en-v1.5")
+
+# print("Loading Reranker...")
+# reranker_model = CrossEncoder("BAAI/bge-reranker-base")
+
+reranker_model = CrossEncoder("sentence-transformers/all-MiniLM-L6-v2")
+
+# reranker_model = CrossEncoder(
+#     "nlpaueb/legal-bert-base-uncased",
+#     max_length=512
+# )
+# reranker_model = CrossEncoder("law-ai/InLegalBERT", max_length=512)
+
+# ============================================================
+# DB
+# ============================================================
 def get_db_connection():
-    db_url = os.getenv("DATABASE_URL")
-    if db_url:
-        result = urlparse(db_url)
-        return psycopg2.connect(
-            dbname=result.path[1:], user=result.username,
-            password=result.password, host=result.hostname, port=result.port
-        )
+    db_url = os.getenv("DATABASE_URL2")
+    if not db_url:
+        raise ValueError("DATABASE_URL2 not set")
+    r = urlparse(db_url)
     return psycopg2.connect(
-        dbname=os.getenv("DB_NAME", "taxrag"),
-        user=os.getenv("DB_USER", "taxuser"),
-        password=os.getenv("DB_PASSWORD", "password"),
-        host=os.getenv("DB_HOST", "localhost"),
-        port=int(os.getenv("DB_PORT", 5432))
+        dbname=r.path[1:],
+        user=r.username,
+        password=r.password,
+        host=r.hostname,
+        port=r.port
     )
 
-def run_vector_search(cursor, query_embedding, limit=10):
+# ============================================================
+
+def run_vector_search(cursor, query_embedding, limit=50):
     cursor.execute("""
-        SELECT c.chunk_id, s.heading, s.section_number, c.text,
-        1 - (c.embedding <=> %s::vector) as score
+        SELECT
+            c.chunk_id,
+            s.heading,
+            s.section_number,
+            c.content,
+            GREATEST(0, 1 - (c.embedding <=> %s::vector)) AS score
         FROM chunks c
-        LEFT JOIN sections s ON c.section_id = s.section_id
+        JOIN sections s ON c.section_id = s.section_id
         ORDER BY c.embedding <=> %s::vector
         LIMIT %s;
     """, (query_embedding, query_embedding, limit))
     return cursor.fetchall()
 
-def run_keyword_search(cursor, query_text, limit=10):
+
+def run_keyword_search(cursor, query_text, limit=50):
     cursor.execute("""
-        SELECT c.chunk_id, s.heading, s.section_number, c.text,
-        ts_rank_cd(c.text_search, websearch_to_tsquery('english', %s)) as score
+        SELECT
+            c.chunk_id,
+            s.heading,
+            s.section_number,
+            c.content,
+            ts_rank_cd(c.content_tsv,
+                websearch_to_tsquery('english', %s)
+            ) AS score
         FROM chunks c
-        LEFT JOIN sections s ON c.section_id = s.section_id
-        WHERE c.text_search @@ websearch_to_tsquery('english', %s)
+        JOIN sections s ON c.section_id = s.section_id
+        WHERE c.content_tsv @@ websearch_to_tsquery('english', %s)
         ORDER BY score DESC
         LIMIT %s;
     """, (query_text, query_text, limit))
     return cursor.fetchall()
 
-def perform_hybrid_fusion(vector_results, keyword_results, k=10):
-    fused_scores = {}
+
+def perform_hybrid_fusion(vector_results, keyword_results, k=20):
+    fused = {}
+
     for rank, row in enumerate(vector_results):
-        chunk_id = row[0]
-        if chunk_id not in fused_scores: fused_scores[chunk_id] = {"row": row, "score": 0}
-        fused_scores[chunk_id]["score"] += 1.0 / (k + rank + 1)
-        
+        cid = row[0]
+        fused.setdefault(cid, {"row": row, "rrf": 0.0})
+        fused[cid]["rrf"] += 1 / (k + rank + 1)
+
     for rank, row in enumerate(keyword_results):
-        chunk_id = row[0]
-        if chunk_id not in fused_scores: fused_scores[chunk_id] = {"row": row, "score": 0}
-        fused_scores[chunk_id]["score"] += 1.0 * (1 / (k + rank + 1)) 
-    
-    sorted_results = sorted(fused_scores.values(), key=lambda x: x["score"], reverse=True)
-    return [item["row"] for item in sorted_results]
+        cid = row[0]
+        fused.setdefault(cid, {"row": row, "rrf": 0.0})
+        fused[cid]["rrf"] += 1 / (k + rank + 1)
 
-# --- RERANKING / SCORING LOGIC ---
-def apply_advanced_reranking(query, initial_chunks, top_k=7, threshold=0.05):
-    global reranker_model 
-    if not initial_chunks:
+    results = []
+    for v in fused.values():
+        r = list(v["row"])
+        r[4] = v["rrf"]     
+        results.append(tuple(r))
+
+    return sorted(results, key=lambda x: x[4], reverse=True)
+
+# # ============================================================
+# # RERANKING 
+# # ============================================================
+# def apply_advanced_reranking(query, rows, top_k=7, threshold=0.15):
+#     if not rows:
+#         return []
+
+#     pairs = [[query, r[3]] for r in rows]
+#     logits = reranker_model.predict(pairs)
+
+#     RRF_CAP = 0.15  # empirical upper bound
+
+#     query_sec = None
+#     m = re.search(r"Sec(?:tion)?\.?\s*(\d+[A-Z]*(?:\(\d+\))?)", query, re.I)
+#     if m:
+#         query_sec = m.group(1)
+
+#     final = []
+
+#     for i, row in enumerate(rows):
+#         rerank_prob = sigmoid(logits[i])  # [0,1]
+
+#         rrf_score = row[4]
+#         rrf_norm = min(rrf_score / RRF_CAP, 1.0)
+
+#      
+#         # score = 0.85 * rerank_prob + 0.15 * rrf_norm
+#         score = rerank_prob
+
+#         # Metadata boost
+#         chunk_sec = str(row[2]).strip().lower() if row[2] else ""
+#         if query_sec and query_sec == chunk_sec:
+#             score += 0.15
+
+#         # if score < threshold:
+#         #     continue
+
+#         r = list(row)
+#         r[4] = score
+#         final.append(tuple(r))
+
+#     final.sort(key=lambda x: x[4], reverse=True)
+#     return final[:top_k]
+def apply_advanced_reranking(query, rows, top_k=7):
+    if not rows:
         return []
-        
-    pairs = [[query, row[3]] for row in initial_chunks]
-    raw_scores = reranker_model.predict(pairs)
-    
-    query_sec_match = re.search(r"Sec(?:tion)?\.?\s*(\d+[A-Z]?)", query, re.IGNORECASE)
-    target_section = query_sec_match.group(1) if query_sec_match else None
-    
-    final_results = []
-    
-    for i, row in enumerate(initial_chunks):
-        rerank_prob = sigmoid(raw_scores[i])
-        vector_score = row[4] 
-        
-        norm_vec = (vector_score + 1) / 2
-        weighted_score = 0.7 * rerank_prob + 0.3 * norm_vec
-        
-        chunk_sec = str(row[2]) if row[2] else ""
-        if target_section and target_section == chunk_sec:
-            weighted_score += 0.15
-            
-        if weighted_score < threshold:
+
+    pairs = [[query, r[3]] for r in rows]
+    logits = reranker_model.predict(pairs)
+
+    final = []
+    for i, row in enumerate(rows):
+        r = list(row)
+        r[4] = float(logits[i])   
+        final.append(tuple(r))
+
+    final.sort(key=lambda x: x[4], reverse=True)
+    return final[:top_k]
+
+def collapse_by_section(rows):
+    section_map = {}
+    for r in rows:
+        sec = r[2]
+        if not sec:
             continue
-            
-        new_row = list(row)
-        new_row[4] = weighted_score
-        final_results.append(tuple(new_row))
-        
-    final_results.sort(key=lambda x: x[4], reverse=True)
-    
-    return final_results[:top_k]
-
-def retrieve_context(query_text, mode="vector", use_reranker=False, final_k=7):
-    global embed_model 
-    fetch_k = 50 if use_reranker else final_k
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    candidates = []
-    
-    try:
-        if mode == "vector":
-            query_embedding = embed_model.get_text_embedding(query_text)
-            candidates = run_vector_search(cursor, query_embedding, limit=fetch_k)
-        elif mode == "hybrid":
-            query_embedding = embed_model.get_text_embedding(query_text)
-            vec_rows = run_vector_search(cursor, query_embedding, limit=fetch_k)
-            kw_rows = run_keyword_search(cursor, query_text, limit=fetch_k)
-            candidates = perform_hybrid_fusion(vec_rows, kw_rows)[:fetch_k]
-            
-        if use_reranker and candidates:
-            final_results = apply_advanced_reranking(
-                query_text, 
-                candidates, 
-                top_k=final_k, 
-                threshold=0.05 
-            )
-            
-            # NOTE: We skip printing the warning in test mode (return_raw_results=True)
-            if not final_results:
-                print("⚠️  Warning: Reranker dropped ALL chunks below threshold.")
+        if sec not in section_map:
+            section_map[sec] = {
+                "row": r,
+                "best_score": r[4]
+            }
         else:
-            final_results = candidates[:final_k]
-            
-    except Exception as e:
-        print(f"❌ Retrieval Error: {e}")
-        final_results = []
-    finally:
-        cursor.close()
-        conn.close()
-        
-    return final_results
+            section_map[sec]["best_score"] = max(
+                section_map[sec]["best_score"],
+                r[4]
+            )
 
-# --- STEP 1: QUERY OPTIMIZER ---
-def generate_optimized_query(original_question):
-    global llm 
-    prompt = f"""
-    You are a search query optimizer for an Indian Tax Law database.
-    1. **Terminology Mapping:**
-       - "Assessment Year" -> MUST become "Tax Year"
-       - "Previous Year" -> MUST become "Financial Year"
-    2. **Preservation:**
-       - Keep legal terms like "Block of Assets", "Person" EXACTLY as they are.
-    3. **Enhancement:**
-       - If user asks for definition, add "meaning", "includes".
-    User Question: "{original_question}"
-    Output ONLY the optimized search string.
+    collapsed = []
+    for v in section_map.values():
+        r = list(v["row"])
+        r[4] = v["best_score"]
+        collapsed.append(tuple(r))
+
+    return sorted(collapsed, key=lambda x: x[4], reverse=True)
+
+
+# ============================================================
+# RETRIEVE CONTEXT
+# ============================================================
+def retrieve_context(query, mode="hybrid", use_reranker=True, final_k=7):
+    fetch_k = 10 if use_reranker else final_k
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    try:
+        emb = embed_model.get_text_embedding(query)
+
+        if mode == "vector":
+            rows = run_vector_search(cur, emb, fetch_k)
+        else:
+            vec = run_vector_search(cur, emb, fetch_k)
+            kw = run_keyword_search(cur, query, fetch_k)
+            rows = perform_hybrid_fusion(vec, kw)
+
+        if use_reranker:
+            rows = apply_advanced_reranking(query, rows, 7)
+        else:
+            rows = rows[:final_k]
+        
+        rows = rows[:final_k]
+
+        return rows
+
+    finally:
+        cur.close()
+        conn.close()
+
+# ============================================================
+# QUERY OPTIMIZER 
+# ============================================================
+
+
+def generate_optimized_query(original_question: str) -> str:
     """
-    response = llm.complete(prompt)
+    Transforms a user question into a keyword-rich legal search query.
+    """
+    prompt = f"""
+You are a query-optimization module for a Retrieval-Augmented Generation (RAG) system
+operating on statutory legal texts under income-tax law.
+
+Task:
+Given a short, generic user question, rewrite it into a retrieval-optimized query
+to maximize recall for:
+- dense vector (bi-encoder) retrieval
+- keyword / BM25 retrieval
+
+Rules:
+1. Do NOT answer the question.
+2. Do NOT cite section numbers explicitly unless semantically intrinsic
+   (e.g., search and seizure, faceless assessment).
+3. Expand using statutory terminology:
+   legal powers, rights, conditions, procedures, limits, authorities.
+4. Prefer noun phrases and legal concepts over conversational language.
+5. Do NOT include definitions, examples, or conclusions.
+6. Assume the corpus is hierarchical statutory text with sections and sub-sections.
+7. Length limit: maximum 70 tokens.
+
+Output:
+Return ONLY the optimized query text. No explanations. No formatting.
+
+Example 1:
+Input Question:
+Can an assessment order be appealed?
+
+Optimized Query:
+Right of an assessee to appeal against orders of the Assessing Officer, types of
+appealable orders, prescribed appellate authorities, and statutory time limits
+for filing appeals under income-tax law.
+
+Example 2:
+Input Question:
+How are lottery winnings taxed?
+
+Optimized Query:
+Tax treatment of winnings from lotteries and prize-based games, classification
+as income from other sources, applicable special tax rates, withholding
+requirements, and restrictions on deductions under income-tax law.
+
+
+Input Question:
+{original_question}
+
+Optimize this question:
+
+"""
+    response = llm_optimizer.complete(prompt)
+    
     return response.text.strip().replace('"', '')
 
-# --- STEP 3: FORMATTER ---
-def format_final_answer(raw_answer, user_question, top_retrieval_score):
-    global llm 
-    formatting_prompt = f"""
-    You are a professional legal editor. Your job is to restructure the raw answer below into a strict, standardized format.
-    
-    **USER QUESTION:** {user_question}
-    **RAW ANSWER:** {raw_answer}
-    **RETRIEVAL STRENGTH:** {top_retrieval_score:.2f}
 
-    --------------------------------------------------
-    **MANDATORY OUTPUT TEMPLATE:**
-    
-    ### Direct Answer
-    [Provide a direct 1-2 sentence summary of the answer here. No fluff.]
+def format_final_answer(raw_answer, user_question):
+    prompt = f"""
+You are a statutory question answering system for the Income-tax Act, 2025.
 
-    ### Key Details
-    * **[Concept 1]:** [Explanation] [Section Citation]
-    * **[Concept 2]:** [Explanation] [Section Citation]
-    * **[Concept 3]:** [Explanation] [Section Citation]
+Answer STRICTLY in the following format and no other:
 
-    ### Exceptions / Notes (If applicable)
-    * [List any specific conditions, exceptions, or important definitions here]
-    
-    ---
-    **Confidence Score:** [Label] ([Score]%)
-    **Reasoning:** [1 sentence explaining why]
-    --------------------------------------------------
+Direct Answer: <1-2> factual sentences derived only from the provided context.>
 
-    **RULES FOR FILLING THE TEMPLATE:**
-    1. **Direct Answer:** Must be a direct "Yes", "No", or summary statement.
-    2. **Key Details:** MUST use bullet points. BOLD the key term at the start of the bullet.
-    3. **Exceptions:** If there are no exceptions, write "None identified in context."
-    4. **Confidence Logic:**
-       - High (>=80%): Exact definition or clear section found.
-       - Medium (50-79%): Good context but requires inference.
-       - Low (<50%): Answer is "I cannot find this".
-    5. **Safety:** If the raw answer says "I cannot find this," the Direct Answer must be "Information not found in the provided legal text." and Confidence MUST be Low.
+Key Provisions (Mention sections here):
+- Section X: <single clause-level fact>
+- Section Y: <single clause-level fact>
 
-    Output ONLY the filled template.
-    """
-    response = llm.complete(formatting_prompt)
-    return response.text.strip()
+Rules:
+- Use ONLY the provided statutory content
+- Use the term "tax year", never "assessment year" or "previous year"
+- Do NOT add explanations, examples, confidence, or reasoning
+- Do NOT mention retrieval, scores, or AI behavior
+- Cite ONLY sections that appear verbatim in the provided statutory content
+- If the answer is not explicitly found in the context, write exactly:
+Direct Answer: Information not found.
 
-# --- MAIN QA LOGIC (MODIFIED FOR TESTING) ---
-def ask_tax_question(question, mode="hybrid", use_reranker=True, return_raw_results=False): 
-    
-    # CRITICAL: Initialize models FIRST
-    initialize_models()
-    
-    # Only print headers if not in testing mode
-    if not return_raw_results:
-        print(f"\n❓ User Question: {question}")
-        rerank_status = "ON (Top 50->7)" if use_reranker else "OFF"
-        print(f"⚙️  Pipeline: {mode.upper()} Search | Reranker: {rerank_status}")
-    
-    # --- STEP 1: Optimization ---
-    if not return_raw_results: print("🧠 Optimizing query with Gemma...")
+Key Provisions:
+- None.
+
+QUESTION:
+{user_question}
+
+RAW STATUTORY CONTENT:
+{raw_answer}
+
+Return ONLY the formatted answer.
+"""
+    return llm_answer.complete(prompt).text.strip()
+
+
+def ask_tax_question(question, mode="hybrid", use_reranker=True):
+    print(f"\n❓ {question}")
+
+    #Query optimization
     search_query = generate_optimized_query(question)
-    if not search_query: search_query = question
-    if not return_raw_results: print(f"   -> Optimized Query: '{search_query}'")
-    
-    if not return_raw_results: print(f"🔍 Retrieving context...")
-    
-    rows = retrieve_context(search_query, mode=mode, use_reranker=use_reranker, final_k=7)
-    
-    # Handle No Context Found
+    print(f"🔍 Optimized Query: {search_query}")
+
+    #Retrieval 
+    rows = retrieve_context(
+        search_query,
+        mode=mode,
+        use_reranker=use_reranker,
+        final_k=7
+    )
+
     if not rows:
-        if return_raw_results:
-            return "Information not found in the provided legal text.", []
-        else:
-            print("❌ No relevant context found in database.")
-            return
+        print("\nFinal Answer:")
+        print("Information not found in the provided legal text.")
+        return
 
-    # Extract Top Score
-    top_score = rows[0][4] if rows and len(rows[0]) > 4 else 0.0
-
-    # Only print debug chunks if not in testing mode
-    if not return_raw_results:
-        print("\n🧐 DEBUG: Best Chunks:")
-        for i, r in enumerate(rows):
-            sec_num = r[2]
-            heading = r[1] or "Introduction"
-            text_preview = r[3][:80].replace("\n", " ") + "..."
-            score_display = f"{r[4]:.4f}"
-            
-            if sec_num and sec_num != "N/A":
-                display_ref = f"Section {sec_num}"
-            else:
-                display_ref = heading
-                
-            print(f"   [{i+1}] {display_ref} (Score: {score_display}): {text_preview}")
-        print("-" * 50)
-
-    # Format Context
-    context_str = ""
+    # Context assembly
+    context = ""
     for r in rows:
-        heading = r[1] or "Introduction"
-        sec_num = r[2]
-        text = r[3]
-        
-        if sec_num and sec_num != "N/A":
-            citation = f"Section {sec_num} - {heading}"
-        else:
-            citation = f"Section: {heading}"
-            
-        context_str += f"""
---- START CONTEXT BLOCK ---
-{citation}
-Content:
-{text}
---- END CONTEXT BLOCK ---
+        context += f"""
+--- CONTEXT ---
+Section {r[2]} - {r[1]}
+{r[3]}
 """
 
-    # --- STEP 2: Raw Answer Generation ---
-    if not return_raw_results: print("🤖 Generating raw legal answer...")
-    
-    raw_system_prompt = "You are an expert Indian Tax Consultant AI. Your goal is to extract the correct legal answer from the context."
-    
-    raw_user_prompt = f"""
-### CONTEXT INFORMATION:
-{context_str}
+    top_score = rows[0][4]
 
-### CRITICAL RULES FOR ANSWERING:
-1. **TERMINOLOGY OVERRIDE (MANDATORY):** - 'Tax Year' = 'Assessment Year'
-   - 'Financial Year' = 'Previous Year'
-   - IF context defines 'Tax Year', USE IT for 'Assessment Year'.
+   
+    raw_prompt = f"""
+Answer strictly from the context below.
+If the answer is not explicitly present, say "Information not found".
 
-2. **DEFINITION EXTRACTION:**
-   - If the text says "X includes A, B, C", accept that as the definition.
+CONTEXT:
+{context}
 
-3. **CITATION:** - Cite Section Numbers [Section X] or Headers.
-
-### USER QUESTION:
+QUESTION:
 {question}
 """
-    try:
-        raw_response = llm.complete(raw_system_prompt + "\n\n" + raw_user_prompt)
-        raw_answer_text = raw_response.text
-        
-        # --- STEP 3: Final Polish ---
-        if not return_raw_results: print("✨ Polishing answer...")
-        final_answer = format_final_answer(raw_answer_text, question, top_score)
-        
-        # --- RETURN LOGIC FOR TESTING ---
-        if return_raw_results:
-            return final_answer, rows # <--- CRITICAL RETURN FOR ABLATION SCRIPT
-            
-        # --- PRINT FINAL ANSWER (Original CLI behavior) ---
-        print("\n📝 Final Answer:")
-        print(final_answer)
-        
-    except Exception as e:
-        if return_raw_results:
-            return f"LLM Error: {e}", []
-        else:
-            print(f"\n❌ LLM Error: {e}")
+    raw_answer = llm_reasoning.complete(raw_prompt).text
 
+    #Formatting
+    final_answer = format_final_answer(raw_answer, question)
+
+    print("\nFinal Answer:\n")
+    print(final_answer)
+    return final_answer
+
+# ============================================================
 if __name__ == "__main__":
-    # Example: Hybrid Search + Reranker ON (CLI mode)
-    # The default behavior is to print the result
     ask_tax_question("What is the meaning of assessment year?", mode="hybrid", use_reranker=True)

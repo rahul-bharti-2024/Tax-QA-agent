@@ -38,6 +38,7 @@ output.txt
 parsed_cache/
 *.cache
 *.tmp
+*.md
 
 # =========================
 # Experiment outputs
@@ -45,10 +46,6 @@ parsed_cache/
 ablation_results_smart.json
 ablation_results.json
 answers_*.json
-
-# Ignore deprecated / exploratory ablation scripts
-testing/ablation_2.py
-testing/ablation3.py
 
 
 # =========================
@@ -58,8 +55,7 @@ data/*.pdf
 data/*.zip
 data/*.csv
 
-# Keep golden test set (tracked)
-!data/golden_test_set.json
+
 
 # =========================
 # Database / Docker
@@ -81,6 +77,6 @@ secrets.json
 common_commands.txt
 req.in 
 req.txt 
-requirements.txt 
+
 
 essential_requirements.txt

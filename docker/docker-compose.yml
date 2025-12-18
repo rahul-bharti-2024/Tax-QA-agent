@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: tax-pg-v2
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: taxrag_v2
+      POSTGRES_USER: taxuser
+      POSTGRES_PASSWORD: b373626b12bc97123ccd83d58d4cd4f7
+
+    ports:
+      - "5433:5432"
+
+    volumes:
+      # Persistent DB storage
+      - pgdata:/var/lib/postgresql/data
+
+      # INIT SCRIPTS: run ONCE only (extensions, nothing else)
+      - ./init:/docker-entrypoint-initdb.d
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U taxuser -d taxrag_v2"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:
+    driver: local
