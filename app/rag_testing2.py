@@ -1,6 +1,6 @@
 import time
 import sys
-from rag_testing1 import ask_tax_question 
+from rag_app import ask_tax_question 
 
 
 test_questions = [
@@ -23,14 +23,14 @@ print("🚀 Starting RAG Stress Test (Low Token Mode)...\n")
 
 for q in test_questions:
     # ask_tax_question(q, mode="hybrid")
-    print("\n🔥 TEST A: Reranker OFF")
+    print("\nTEST A: Reranker OFF")
     ask_tax_question(q, mode="hybrid", use_reranker=False)
 
-    print("\n🔥 TEST B: Reranker ON")
+    print("\nTEST B: Reranker ON")
     ask_tax_question(q, mode="hybrid", use_reranker=True)
     print("\n" + "="*60 + "\n")
     
     sys.stdout.flush() 
 
-    print("⏳ Cooling down for 15 seconds to respect rate limits...")
+    print("Cooling down for 15 seconds to respect rate limits...")
     time.sleep(15)

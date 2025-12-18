@@ -8,7 +8,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'app'))
 
 try:
     # Import the core function from your existing application file
-    from rag_testing1 import ask_tax_question
+    from rag_app import ask_tax_question
 except ImportError:
     print("❌ ERROR: Could not import 'ask_tax_question' from rag_app.py.")
     print("Please ensure your core RAG logic is in a file named 'rag_app.py' inside an 'app' directory.")
@@ -24,11 +24,10 @@ def main_cli_loop():
     print("Enter your tax question below. Type 'quit' or 'exit' to end.")
     print("-" * 50)
     
-    # Run a quick, simple question once to initialize the models
+    
     print("🔍 Initializing models (one-time setup)...")
     try:
-        # We call the function once with a trivial query just to load the LLM/Reranker models into memory.
-        # This makes the first user query faster.
+        
         ask_tax_question("What is Section 3?", mode="hybrid", use_reranker=True)
         print("-" * 50)
         print("✅ Models ready. Start asking questions.")
@@ -40,7 +39,7 @@ def main_cli_loop():
 
     while True:
         try:
-            # Get user input
+           
             question = input("\n[You] > ").strip()
             
             # Check for exit commands
@@ -52,7 +51,7 @@ def main_cli_loop():
                 continue
 
             # Call the core RAG function
-            # We default to the best-performing mode (Hybrid with Reranker ON)
+          
             start_time = time.time()
             ask_tax_question(question, mode="hybrid", use_reranker=True)
             end_time = time.time()
@@ -62,7 +61,7 @@ def main_cli_loop():
 
         except Exception as e:
             print(f"\n🚨 An unexpected error occurred: {e}")
-            # Continue the loop unless it's a critical system error
+          
             time.sleep(1)
 
 if __name__ == "__main__":

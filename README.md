@@ -14,7 +14,14 @@ The system targets **high‑precision legal question answering** with a strong e
 The project includes a controlled **ablation study** comparing vector, hybrid, and reranked pipelines on a curated golden test set.
 
 ---
+## Run Locally
 
+```bash
+pip install -r requirements.txt
+streamlit run app/main.py
+```
+
+---
 ## Project Overview
 
 Indian tax legislation is deeply hierarchical (Chapters → Sections → Sub‑sections → Provisos) and exhibits heavy semantic overlap across provisions. Conventional RAG pipelines often fail due to:
@@ -81,26 +88,21 @@ Four configurations are evaluated under identical chunking, embedding, and gener
 
 ## Ablation Results
 
-### Retrieval‑Only Baselines
-
-| Configuration         | Recall@7 | MRR@7 | Citation F1 | Groundedness | Coverage Recall |
-| --------------------- | -------- | ----- | ----------- | ------------ | --------------- |
-| A: Vector (No Rerank) | 0.70     | 0.48  | 0.37        | **0.58**     | 0.65            |
-| C: Hybrid (No Rerank) | 0.70     | 0.48  | 0.37        | 0.55         | 0.65            |
+![Results Table](assets/results.png)
 
 **Observation:**
 Query expansion alone enables strong recall and stable coverage. Once legal vocabulary alignment is applied, hybrid retrieval offers limited additional gains over dense retrieval.
-
----
-
-### Retrieval + Reranking
-
-| Configuration          | Recall@7 | MRR@7    | Citation Precision | Citation Recall | Citation F1 | Groundedness | Coverage Recall |
-| ---------------------- | -------- | -------- | ------------------ | --------------- | ----------- | ------------ | --------------- |
-| B: Vector + Rerank     | 0.70     | 0.58     | 0.50               | 0.58            | 0.53        | 0.44         | 0.67            |
-| **D: Hybrid + Rerank** | **0.72** | **0.58** | **0.50**           | **0.58**        | **0.53**    | **0.54**     | **0.67**        |
 
 **Key Result:**
 Cross‑encoder reranking significantly improves ranking quality and citation accuracy **without reducing recall**, provided it is applied strictly as a reordering step over a high‑recall candidate set.
 
 ---
+## Demo
+
+Below is a live demo of the system running locally via Streamlit.
+
+![Streamlit Demo](assets/demo.png)
+
+The demo showcases end-to-end question answering over the Income-tax Bill, 2025,
+including retrieval and generation latency.
+
